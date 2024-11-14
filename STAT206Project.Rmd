@@ -1,0 +1,17 @@
+---
+title: "STAT206 Project"
+author:
+  - Yuxin Liu
+  - Chenguang Yang
+  - Yijia Xue
+date: "2024-11-14"
+output: html_document
+---
+
+# *EM Algorithm*
+
+### E-step
+
+### M-step
+
+### EM Algorithm implication
