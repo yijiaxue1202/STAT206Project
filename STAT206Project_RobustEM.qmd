@@ -111,8 +111,184 @@ Robust_EM<-function(X, tol = 1e-4){
 ```
 
 ## EM Algorithm
+```{r}
+Robust_EM<-function(X, tol = 1e-4){
+  
+  # Step 1 - Initiate beta, c, p, mu
+  n<-nrow(X)  # Number of samples
+  P<-ncol(X) # Number of variables
+  beta<-1
+  c<-n # Number of clusters
+  p<-rep(1/n,n)
+  mu<-X # each row of X will be a mu
+  
+  # Step 2 - Initiate Sigma
+  dist_matrix<-matrix(0,nrow=n,ncol=n)
+  for (k in 1:n) {
+    for (i in 1:n) {
+      dist_matrix[k,i]<-sqrt(sum((X[i,]-mu[k,])^2))
+    }
+  }
+  dist_matrix<-t(apply(dist_matrix,1,sort))
+  dist_matrix<-dist_matrix[,2:n]
+  Q<-min(dist_matrix)*diag(x=1,nrow=P)
+  gamma<-0.0001
+  sigma <- lapply(1:n, function(i) (1-gamma)*dist_matrix[i,ceiling(sqrt(c))]*diag(x=1,nrow=P)+gamma*Q)
+  
+  # Step 3 - Compute Z
+  Z <- matrix(0,nrow=n,ncol=n)
+  Z <- estep(X, p, mu, sigma)
+  iteration <- 1
+  
+  # Step 4 - Compute mu
+  for (k in 1:n) {
+      mu[k,] <- colSums(Z[, k] * X) / sum(Z[, k])
+  }
+  
+  # Start iteration
+  for (i in 1:1000) {
+    
+    # Step 5 - Update p
+    options(digits = 22)
+    p_prev <- p
+    p_em <- colMeans(Z)
+    E <- sum(p * log(p))
+    p <- p_em  + beta * p * (log(p) - E)
+    
+    # Step 6 - Compute beta
+    eta <- min(1, 0.5^floor(P/2-1))
+    beta <- min(sum(exp(-eta*n*abs(p-p_prev)))/c, (1-max(p_em))/(-max(p_prev)*E))
+    
+    # Step 7 - Update cluster - Update c and adjust p, Z, mu
+    index <- which(p>1/n) # Discard cluster with p<=1/n
+    c <- length(index)
+    p <- p[index]
+    p <- p/sum(p)
+    Z <- Z[,index]
+    Z <- Z/rowMeans(Z)
+    mu<-mu[index,]
+    mu_prev <- mu
+    if(iteration>=60){
+      if((c-n)==0){
+        beta<-0
+      }
+    }
+    
+    # Step 8 - Update Sigma
+    sigma <- lapply(1:ncol(Z), function(k) {
+        mu_diff <- t(t(X) - mu[k, ])
+        cov_matrix <- t(Z[, k] * mu_diff) %*% mu_diff / sum(Z[, k])
+        nearPD(cov_matrix)$mat # Ensure positive definiteness
+      })
+    
+    # Step 9 - Update Z
+    Z <- estep(X, p, mu, sigma)
+    
+    # Step 10 - Update mu
+    for (k in 1:ncol(Z)) {
+        mu[k,] <- colSums(Z[, k] * X) / sum(Z[, k])
+    }
+    
+    # Step 11 - Check convergence - Compare mu_prev and mu
+    if(max(apply(mu_prev - mu, 1, function(row) sqrt(sum(row^2))))<tol){
+      break
+    }else{
+      iteration<-iteration+1
+    }
+  }
+  list(p = p, mu = mu, sigma = sigma, iteration = iteration)
+}
+```
+
+## EM Algorithm
+
+```{r}
+# M-step: Update the parameters
+mstep <- function(X, Z) {
+  N <- nrow(X)
+  K <- ncol(Z)
+  p <- colMeans(Z)
+  mu <- matrix(0, nrow = K, ncol = 2)
+  for (k in 1:K) {
+    mu[k,] <- colSums(Z[, k] * X) / sum(Z[, k])
+  }
+  sigma <- lapply(1:K, function(k) {
+    mu_diff <- t(t(X) - mu[k, ])
+    cov_matrix <- t(Z[, k] * mu_diff) %*% mu_diff / sum(Z[, k])
+    nearPD(cov_matrix)$mat
+  })
+  list(p = p, mu = mu, sigma = sigma)
+}
+
+EM <- function(X, max_iter = 1000, tol = 1e-6, K) {
+  N <- nrow(X)
+
+  # Initialize the parameters
+  p <- rep(1/K, K)  # Mixing proportions
+  mu <- matrix(runif(2 * K), ncol = 2)  # Means
+  sigma <- lapply(1:K, function(k) diag(runif(2)))  # Covariance matrices
+  iteration<-0
+    
+  # Iterations
+  for (iter in 1:max_iter) {
+    
+    # E-step
+    iteration<-iteration+1
+    Z <- estep(X, p, mu, sigma)
+    
+    # M-step
+    prev_params <- list(p, mu, sigma)
+    params <- mstep(X, Z)
+    for (i in 1:K) {
+      params[[3]][[i]]<-as.matrix(params[[3]][[i]])
+    }
+    p <- params[[1]]
+    mu <- params[[2]]
+    sigma <- params[[3]]
+    
+    # Check convergence
+    if (max(abs(unlist(params) - unlist(prev_params))) < tol) {
+      break
+    }
+  }
+  
+  # Return the estimated parameters
+  list(p = p, mu = mu, sigma = sigma, iteration = iteration)
+}
+```
 
 ## Function to create clustering results figures
+
+```{r}
+draw_ellipse <- function(mu, sigma, level = 0.95, n_points) {
+  eigen_decomp <- eigen(sigma)
+  angles <- seq(0, 2 * pi, length.out = n_points)
+  ellipse_points <- sqrt(qchisq(level, df = 2)) * t(eigen_decomp$vectors %*% 
+                    diag(sqrt(eigen_decomp$values)) %*% rbind(cos(angles), sin(angles)))
+  ellipse_points <- t(t(ellipse_points) + mu)
+  ellipse_points
+}
+
+draw_cluster <-function(X,mu,sigma,iteration){
+  n<-nrow(X)
+  dat1<-data.frame(X)
+  dat2<-data.frame(mu)
+  cluster_plot <- ggplot(dat1,mapping = aes(X1,X2))+
+    geom_point(size=.8,col="red")+
+    geom_point(data=dat2,mapping = aes(X1,X2),size=1.2)+
+    theme_base()+
+    xlab("")+
+    ylab("")+
+    labs(title = paste("Iteration = ",iteration,"; C = ", nrow(mu)))
+  for (i in 1:nrow(mu)) {
+    dat3<-draw_ellipse(mu[i,],sigma[[i]],n_points=n)
+    cluster_plot<-cluster_plot+
+      geom_path(dat=data.frame(dat3),mapping = aes(X1,X2),col="blue",size=.6)
+  }
+  cluster_plot
+  
+}
+```
 
 # Simulation 1
 
