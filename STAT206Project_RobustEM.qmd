@@ -1,0 +1,43 @@
+---
+title: "STAT206Project_RobustEM"
+author: "Yuxin Liu & Yijia Xue & Chenguang Yang"
+format: 
+  html:
+    toc: true
+    toc-location: left
+editor: visual
+---
+```{r}
+# Package
+library(mvtnorm)
+library(Matrix)
+library(ggplot2)
+library(ggthemes)
+```
+
+# Define Function
+## E-step
+
+## Robust EM Algorithm
+
+## EM Algorithm
+
+## Function to create clustering results figures
+
+
+
+# Simulation 1
+
+# Simulation 2
+
+# Simulation 3
+
+# Simulation 4
+
+
+
+
+
+
+
+
