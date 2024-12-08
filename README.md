@@ -13,6 +13,14 @@ This repository contains the implementation of a Robust Expectation-Maximization
 * Yijia Xue
 * Chenguang Yang
 
+## Required Packages
+``` r
+library(mvtnorm)
+library(Matrix)
+library(ggplot2)
+library(ggthemes)
+```
+
 ## Features
 * Robust EM Algorithm: Implements the Robust EM Clustering Algorithm.
 * E-Step and M-Step function: Modular functions for the Expectation and Maximization steps.
