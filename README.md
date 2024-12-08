@@ -21,23 +21,24 @@ This repository contains the implementation of a Robust Expectation-Maximization
 * Comparison with Standard EM: Visual and quantitative comparison of results.
 
 ## Result 
-<center>
-    <img src="./it_44%20C_2.png">
-    <br>
-    <div style="padding: 2px;">iteration 44; C 2</div>
-</center>
+
+<div style="text-align: center;">
+  <img src="./it_44%20C_2.png" alt="iteration 44; C 2" style="width: 80%;"/>
+  <p>iteration 44; C 2</p>
+</div>
+
 </br>
-<center>
-    <img src="./it_55%20C_16.png">
-    <br>
-    <div style="padding: 2px;">iteration 55; C 16</div>
-</center>
+
+<div style="text-align: center;">
+  <img src="./it_55%20C_16.png" alt="iteration 55; C 16" style="width: 80%;"/>
+  <p>iteration 55; C 16</p>
+</div>
 </br>
-<center>
-    <img src="./it_38 C_3.png">
-    <br>
-    <div style="padding: 2px;">iteration 38; C 3</div>
-</center>
+
+<div style="text-align: center;">
+  <img src="./it_38 C_3.png" alt="iteration 38; C 3" style="width: 80%;"/>
+  <p>iteration 38; C 3</p>
+</div>
 
 ## References
 
