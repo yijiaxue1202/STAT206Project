@@ -1,6 +1,7 @@
 # Directory
 - [Introduction](#robust-em-clustering-algorithm)
 - [Authors](#authors)
+- [Required Packages](#required-packages)
 - [Features](#features)
 - [Result](#result)
 - [References](#references)
