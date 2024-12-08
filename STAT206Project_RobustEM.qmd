@@ -20,97 +20,21 @@ library(ggthemes)
 
 ## E-step
 
-## Robust EM Algorithm
 ```{r}
-Robust_EM<-function(X, tol = 1e-4){
-  
-  # Step 1 - Initiate beta, c, p, mu
-  n<-nrow(X)  # Number of samples
-  P<-ncol(X) # Number of variables
-  beta<-1
-  c<-n # Number of clusters
-  p<-rep(1/n,n)
-  mu<-X # each row of X will be a mu
-  
-  # Step 2 - Initiate Sigma
-  dist_matrix<-matrix(0,nrow=n,ncol=n)
-  for (k in 1:n) {
-    for (i in 1:n) {
-      dist_matrix[k,i]<-sqrt(sum((X[i,]-mu[k,])^2))
-    }
+estep <- function(X, p, mu, sigma) {
+  N <- nrow(X)  # Number of samples
+  K <- length(p)  # Number of components
+  Z <- matrix(0,nrow=N,ncol=K) # Initiate Z
+  for (k in 1:K) {
+    Z[, k] <- p[k] * dmvnorm(X, mean = mu[k, ], sigma = as.matrix(sigma[[k]]))
   }
-  dist_matrix<-t(apply(dist_matrix,1,sort))
-  dist_matrix<-dist_matrix[,2:n]
-  Q<-min(dist_matrix)*diag(x=1,nrow=P)
-  gamma<-0.0001
-  sigma <- lapply(1:n, function(i) (1-gamma)*dist_matrix[i,ceiling(sqrt(c))]*diag(x=1,nrow=P)+gamma*Q)
-  
-  # Step 3 - Compute Z
-  Z <- matrix(0,nrow=n,ncol=n)
-  Z <- estep(X, p, mu, sigma)
-  iteration <- 1
-  
-  # Step 4 - Compute mu
-  for (k in 1:n) {
-      mu[k,] <- colSums(Z[, k] * X) / sum(Z[, k])
-  }
-  
-  # Start iteration
-  for (i in 1:1000) {
-    
-    # Step 5 - Update p
-    options(digits = 22)
-    p_prev <- p
-    p_em <- colMeans(Z)
-    E <- sum(p * log(p))
-    p <- p_em  + beta * p * (log(p) - E)
-    
-    # Step 6 - Compute beta
-    eta <- min(1, 0.5^floor(P/2-1))
-    beta <- min(sum(exp(-eta*n*abs(p-p_prev)))/c, (1-max(p_em))/(-max(p_prev)*E))
-    
-    # Step 7 - Update cluster - Update c and adjust p, Z, mu
-    index <- which(p>1/n) # Discard cluster with p<=1/n
-    c <- length(index)
-    p <- p[index]
-    p <- p/sum(p)
-    Z <- Z[,index]
-    Z <- Z/rowMeans(Z)
-    mu<-mu[index,]
-    mu_prev <- mu
-    if(iteration>=60){
-      if((c-n)==0){
-        beta<-0
-      }
-    }
-    
-    # Step 8 - Update Sigma
-    sigma <- lapply(1:ncol(Z), function(k) {
-        mu_diff <- t(t(X) - mu[k, ])
-        cov_matrix <- t(Z[, k] * mu_diff) %*% mu_diff / sum(Z[, k])
-        nearPD(cov_matrix)$mat # Ensure positive definiteness
-      })
-    
-    # Step 9 - Update Z
-    Z <- estep(X, p, mu, sigma)
-    
-    # Step 10 - Update mu
-    for (k in 1:ncol(Z)) {
-        mu[k,] <- colSums(Z[, k] * X) / sum(Z[, k])
-    }
-    
-    # Step 11 - Check convergence - Compare mu_prev and mu
-    if(max(apply(mu_prev - mu, 1, function(row) sqrt(sum(row^2))))<tol){
-      break
-    }else{
-      iteration<-iteration+1
-    }
-  }
-  list(p = p, mu = mu, sigma = sigma, iteration = iteration)
+  row_sums <- rowSums(Z)
+  Z <- Z / row_sums
+  Z
 }
 ```
 
-## EM Algorithm
+## Robust EM Algorithm
 ```{r}
 Robust_EM<-function(X, tol = 1e-4){
   
