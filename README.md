@@ -32,28 +32,53 @@ library(ggthemes)
 ## Simulation Results 
 
 <div style="text-align: center;">
-  <img src="./it_44%20C_2.png" alt="iteration 44; C 2" style="width: 80%;"/>
+  <img src="./figure1.png" alt="iteration 44; C 2" style="width: 80%;"/>
   <p>Simulation 1</p>
 </div>
 
 </br>
 
 <div style="text-align: center;">
-  <img src="./it_38 C_3.png" alt="iteration 38; C 3" style="width: 80%;"/>
+  <img src="./figure2.png" alt="iteration 8; C 2" style="width: 80%;"/>
+  <p>Simulation 1</p>
+</div>
+
+</br>
+
+<div style="text-align: center;">
+  <img src="./figure3.png" alt="iteration 38; C 3" style="width: 80%;"/>
   <p>Simulation 2</p>
 </div>
 
 </br>
-
 <div style="text-align: center;">
-  <img src="./it_137 C_5.png" alt="iteration 137; C 5" style="width: 80%;"/>
-  <p>Simulation 3</p>
+  <img src="./figure4.png" alt="iteration 117; C 3" style="width: 80%;"/>
+  <p>Simulation 1</p>
 </div>
 
 </br>
 
 <div style="text-align: center;">
-  <img src="./it_55%20C_16.png" alt="iteration 55; C 16" style="width: 80%;"/>
+  <img src="./figure5.png" alt="iteration 137; C 5" style="width: 80%;"/>
+  <p>Simulation 3</p>
+</div>
+
+</br>
+<div style="text-align: center;">
+  <img src="./figure6.png" alt="iteration 68; C 5" style="width: 80%;"/>
+  <p>Simulation 1</p>
+</div>
+
+</br>
+<div style="text-align: center;">
+  <img src="./figure7.png" alt="iteration 55; C 16" style="width: 80%;"/>
+  <p>Simulation 1</p>
+</div>
+
+</br>
+
+<div style="text-align: center;">
+  <img src="./figure8.png" alt="iteration 145; C 16" style="width: 80%;"/>
   <p>Simulation 4</p>
 </div>
 
