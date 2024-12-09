@@ -207,7 +207,7 @@ draw_cluster <-function(X,mu,sigma,iteration){
   for (i in 1:nrow(mu)) {
     dat3<-draw_ellipse(mu[i,],sigma[[i]],n_points=n)
     cluster_plot<-cluster_plot+
-      geom_path(dat=data.frame(dat3),mapping = aes(X1,X2),col="blue",size=.6)
+      geom_path(dat=data.frame(dat3),mapping = aes(X1,X2),col="blue",linewidth=.6)
   }
   cluster_plot
   
