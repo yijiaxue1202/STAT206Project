@@ -3,7 +3,7 @@
 - [Authors](#authors)
 - [Required Packages](#required-packages)
 - [Features](#features)
-- [Result](#result)
+- [Simulation Results](#simulation-results)
 - [References](#references)
 
 # Robust EM Clustering Algorithm
@@ -29,24 +29,32 @@ library(ggthemes)
 * Simulation Examples: Four simulation scenarios to demonstrate the robustness of the algorithm on Gaussian mixture data.
 * Comparison with Standard EM: Visual and quantitative comparison of results.
 
-## Result 
+## Simulation Results 
 
 <div style="text-align: center;">
   <img src="./it_44%20C_2.png" alt="iteration 44; C 2" style="width: 80%;"/>
-  <p>iteration 44; C 2</p>
+  <p>Simulation 1</p>
+</div>
+
+</br>
+
+<div style="text-align: center;">
+  <img src="./it_38 C_3.png" alt="iteration 38; C 3" style="width: 80%;"/>
+  <p>Simulation 2</p>
+</div>
+
+</br>
+
+<div style="text-align: center;">
+  <img src="./it_137 C_5.png" alt="iteration 137; C 5" style="width: 80%;"/>
+  <p>Simulation 3</p>
 </div>
 
 </br>
 
 <div style="text-align: center;">
   <img src="./it_55%20C_16.png" alt="iteration 55; C 16" style="width: 80%;"/>
-  <p>iteration 55; C 16</p>
-</div>
-</br>
-
-<div style="text-align: center;">
-  <img src="./it_38 C_3.png" alt="iteration 38; C 3" style="width: 80%;"/>
-  <p>iteration 38; C 3</p>
+  <p>Simulation 4</p>
 </div>
 
 ## References
@@ -57,3 +65,10 @@ library(ggthemes)
 
 Miin-Shen Yang, Chien-Yo Lai, and Chih-Ying Lin. 2012. "A Robust EM Clustering Algorithm for Gaussian Mixture Models." *Pattern Recognition* 45: 3950–3961.
 <http://dx.doi.org/10.5705/ss.2013.088>.
+
+
+
+
+
+
+
