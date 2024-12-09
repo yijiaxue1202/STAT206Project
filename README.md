@@ -33,53 +33,53 @@ library(ggthemes)
 
 <div style="text-align: center;">
   <img src="./figure1.png" alt="iteration 44; C 2" style="width: 80%;"/>
-  <p>Simulation 1</p>
+  <p>Simulation 1 Robust EM</p>
 </div>
 
 </br>
 
 <div style="text-align: center;">
   <img src="./figure2.png" alt="iteration 8; C 2" style="width: 80%;"/>
-  <p>Simulation 1</p>
+  <p>Simulation 1 EM</p>
 </div>
 
 </br>
 
 <div style="text-align: center;">
   <img src="./figure3.png" alt="iteration 38; C 3" style="width: 80%;"/>
-  <p>Simulation 2</p>
+  <p>Simulation 2 Robust EM</p>
 </div>
 
 </br>
 <div style="text-align: center;">
   <img src="./figure4.png" alt="iteration 117; C 3" style="width: 80%;"/>
-  <p>Simulation 1</p>
+  <p>Simulation 2 EM</p>
 </div>
 
 </br>
 
 <div style="text-align: center;">
   <img src="./figure5.png" alt="iteration 137; C 5" style="width: 80%;"/>
-  <p>Simulation 3</p>
+  <p>Simulation 3 Robust EM</p>
 </div>
 
 </br>
 <div style="text-align: center;">
   <img src="./figure6.png" alt="iteration 68; C 5" style="width: 80%;"/>
-  <p>Simulation 1</p>
+  <p>Simulation 3 EM</p>
 </div>
 
 </br>
 <div style="text-align: center;">
   <img src="./figure7.png" alt="iteration 55; C 16" style="width: 80%;"/>
-  <p>Simulation 1</p>
+  <p>Simulation 4 Robust EM</p>
 </div>
 
 </br>
 
 <div style="text-align: center;">
   <img src="./figure8.png" alt="iteration 145; C 16" style="width: 80%;"/>
-  <p>Simulation 4</p>
+  <p>Simulation 4 EM</p>
 </div>
 
 ## References
